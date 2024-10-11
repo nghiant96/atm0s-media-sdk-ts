@@ -23,5 +23,5 @@ export function AudioMixerSpeaking({ peer, children }: Props) {
     }
   }, [setSpeaking, voiceActivity]);
 
-  return speaking ? children : <></>;
+  return speaking ? children : null;
 }

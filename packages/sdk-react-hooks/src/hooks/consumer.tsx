@@ -3,6 +3,7 @@ import { RemoteTrack } from "./meta";
 import { Context } from "../context";
 import { Atm0sMediaContext } from "../provider";
 import {
+  CrossPlatformMediaStream,
   EventEmitter,
   TrackReceiver,
   TrackReceiverEvent,
@@ -10,9 +11,6 @@ import {
   TrackReceiverVoiceActivity,
 } from "@atm0s-media-sdk/core";
 
-import {
-  MediaStream,
-} from 'react-native-webrtc';
 
 export interface ConsumerConfig {
   priority: number;
@@ -22,7 +20,7 @@ export interface ConsumerConfig {
 
 export class Consumer extends EventEmitter {
   receiver?: TrackReceiver;
-  media_stream: MediaStream = new MediaStream();
+  media_stream: CrossPlatformMediaStream = new CrossPlatformMediaStream();
 
   constructor(
     private ctx: Context,

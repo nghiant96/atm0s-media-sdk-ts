@@ -1,8 +1,4 @@
 import {
-  MediaStreamTrack,
-} from 'react-native-webrtc';
-
-import {
   Session,
   SessionConfig,
   EventEmitter,
@@ -18,6 +14,7 @@ import {
   Sender_Config,
   stringToKind,
   JoinInfo,
+  CrossPlatformMediaStreamTrack,
 } from "@atm0s-media-sdk/core";
 
 export enum ContextEvent {
@@ -44,7 +41,7 @@ export class Publisher {
     return this._sender.attached;
   }
 
-  async attach(track: MediaStreamTrack) {
+  async attach(track: CrossPlatformMediaStreamTrack) {
     await this._sender.attach(track);
   }
 
@@ -144,7 +141,7 @@ export class Context extends EventEmitter {
 
   getOrCreatePublisher(
     name: string,
-    media_or_kind: Kind | MediaStreamTrack,
+    media_or_kind: Kind | CrossPlatformMediaStreamTrack,
     cfg?: PublisherConfig,
   ) {
     //TODO check if publisher already created with same name but wrong kind

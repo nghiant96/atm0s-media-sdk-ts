@@ -7,6 +7,7 @@ import { mediaDevices, MediaStream, RTCView } from "react-native-webrtc";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import Icon from 'react-native-vector-icons/Feather';
+import React from "react";
 let mediaConstraints = {
   audio: true,
   video: {
@@ -76,12 +77,12 @@ export function CameraSelection({
       if (first_page) {
         await ctx.requestDevice(source_name, "video");
       }
-      const devices = await mediaDevices.enumerateDevices();
+      const devices: any = await mediaDevices.enumerateDevices();
       console.log(devices);
       setDevices(
         devices
-          .filter((d) => d.kind == "videoinput")
-          .map((d) => {
+          .filter((d: any) => d.kind == "videoinput")
+          .map((d: any) => {
             return { id: d.deviceId, label: d.label };
           }),
       );
@@ -91,7 +92,7 @@ export function CameraSelection({
   }, [ctx, source_name, setDevices, first_page]);
 
   useEffect(() => {
-    let track = stream?.getVideoTracks()[0];
+    let track: any = stream?.getVideoTracks()[0];
     if (track && !publisher.attached) {
       publisher.attach(track);
     } else if (!track && publisher.attached) {

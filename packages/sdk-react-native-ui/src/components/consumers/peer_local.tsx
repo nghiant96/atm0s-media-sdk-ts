@@ -2,6 +2,7 @@ import { Text, View } from "react-native";
 import { useDeviceStream } from "../../hooks";
 import { useEffect, useRef, useState } from "react";
 import { MediaStream, RTCView } from "react-native-webrtc";
+import React from "react";
 
 interface Props {
   video: string;

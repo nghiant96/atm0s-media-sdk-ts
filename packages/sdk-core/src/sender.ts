@@ -10,11 +10,7 @@ import { kindToString, stringToKind } from "./types";
 import { ServerEvent_Sender } from "./generated/protobuf/session";
 import { EventEmitter } from "./utils";
 import { TrackSenderStatus } from "./lib";
-import {
-  RTCPeerConnection,
-  MediaStreamTrack,
-  RTCRtpTransceiver
-} from 'react-native-webrtc';
+import { CrossPlatformMediaStreamTrack, CrossPlatformPeerConnection, CrossPlatformRTCRtpTransceiver, TrackReceiverStatus } from "./lib";
 
 const DEFAULT_CFG = {
   priority: 1,
@@ -35,21 +31,21 @@ export interface TrackSenderConfig {
 
 export class TrackSender extends EventEmitter {
   sender_state: Sender_State;
-  transceiver?: RTCRtpTransceiver;
+  transceiver?: CrossPlatformRTCRtpTransceiver;
   kind: Kind;
-  track?: MediaStreamTrack;
+  track?: CrossPlatformMediaStreamTrack;
   simulcast: boolean;
   _status?: TrackSenderStatus;
 
   constructor(
     private dc: Datachannel,
     private track_name: string,
-    track_or_kind: MediaStreamTrack | Kind,
+    track_or_kind: CrossPlatformMediaStreamTrack | Kind,
     cfg: TrackSenderConfig = DEFAULT_CFG,
   ) {
     super();
     console.log("[TrackSender] created", track_name, dc, track_or_kind);
-    if (track_or_kind instanceof MediaStreamTrack) {
+    if (track_or_kind instanceof CrossPlatformMediaStreamTrack) {
       this.track = track_or_kind;
       this.kind = stringToKind(track_or_kind.kind as any);
     } else {
@@ -102,7 +98,7 @@ export class TrackSender extends EventEmitter {
 
   /// We need lazy prepare for avoding error when sender track is changed before it connect.
   /// Config after init feature will be useful when complex application
-  prepare(peer: RTCPeerConnection) {
+  prepare(peer: CrossPlatformPeerConnection) {
     this.transceiver = peer.addTransceiver(
       this.track || kindToString(this.kind),
       {
@@ -115,10 +111,10 @@ export class TrackSender extends EventEmitter {
           ]
           : undefined,
       },
-    );
+    ) as CrossPlatformRTCRtpTransceiver;
   }
 
-  public async attach(track: MediaStreamTrack, metadata?: string) {
+  public async attach(track: CrossPlatformMediaStreamTrack, metadata?: string) {
     if (this.track) {
       throw new Error("This sender already attached");
     }

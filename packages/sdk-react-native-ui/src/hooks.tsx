@@ -2,18 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import { Atm0sMediaUIContext } from "./provider";
 import { ContextEvent } from "./context";
 
-import {
-  MediaStream,
-} from 'react-native-webrtc';
+import { CrossPlatformMediaStream } from "@atm0s-media-sdk/core";
 
 export const useDeviceStream = (
   source_name: string,
-): MediaStream | undefined => {
+): CrossPlatformMediaStream | undefined => {
   const ctx = useContext(Atm0sMediaUIContext);
 
   const [stream, setStream] = useState(() => ctx.streams.get(source_name));
   useEffect(() => {
-    const handler = (stream: MediaStream | undefined) => {
+    const handler = (stream: CrossPlatformMediaStream | undefined) => {
       setStream(stream);
     };
     if (ctx.streams.get(source_name) != stream) {

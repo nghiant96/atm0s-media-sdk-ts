@@ -9,13 +9,7 @@ import { EventEmitter, ReadyWaiter } from "./utils";
 import { Datachannel, DatachannelEvent } from "./data";
 import { kindToString } from "./types";
 import { ServerEvent_Receiver } from "./generated/protobuf/session";
-import { TrackReceiverStatus } from "./lib";
-import {
-  RTCPeerConnection,
-  MediaStream,
-  MediaStreamTrack,
-  RTCRtpTransceiver
-} from 'react-native-webrtc';
+import { CrossPlatformMediaStream, CrossPlatformMediaStreamTrack, CrossPlatformPeerConnection, CrossPlatformRTCRtpTransceiver, TrackReceiverStatus } from "./lib";
 
 const DEFAULT_CFG = {
   priority: 1,
@@ -29,10 +23,10 @@ export enum TrackReceiverEvent {
 }
 
 export class TrackReceiver extends EventEmitter {
-  transceiver?: RTCRtpTransceiver;
+  transceiver?: CrossPlatformRTCRtpTransceiver;
   waiter: ReadyWaiter = new ReadyWaiter();
-  media_stream: MediaStream;
-  media_track?: MediaStreamTrack;
+  media_stream: CrossPlatformMediaStream;
+  media_track?: CrossPlatformMediaStreamTrack;
   receiver_state: Receiver_State = { config: undefined, source: undefined };
   _status?: TrackReceiverStatus;
 
@@ -42,7 +36,7 @@ export class TrackReceiver extends EventEmitter {
     private _kind: Kind,
   ) {
     super();
-    this.media_stream = new MediaStream();
+    this.media_stream = new CrossPlatformMediaStream();
     console.log("[TrackReceiver] create ", track_name, dc);
     this.dc.on(
       DatachannelEvent.RECEIVER + track_name,
@@ -79,10 +73,10 @@ export class TrackReceiver extends EventEmitter {
 
   /// We need lazy prepare for avoding error when sender track is changed before it connect.
   /// Config after init feature will be useful when complex application
-  prepare(peer: RTCPeerConnection) {
+  prepare(peer: CrossPlatformPeerConnection) {
     this.transceiver = peer.addTransceiver(kindToString(this._kind), {
       direction: "recvonly",
-    });
+    }) as CrossPlatformRTCRtpTransceiver;
     this.media_stream.addTrack(this.transceiver.receiver.track);
     this.media_track = this.transceiver.receiver.track;
   }

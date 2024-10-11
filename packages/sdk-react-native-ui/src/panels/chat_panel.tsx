@@ -1,7 +1,8 @@
 import { MessageChannelEvent } from "@atm0s-media-sdk/core";
 import { useMessageChannel } from "@atm0s-media-sdk/react-hooks";
+import React from "react";
 import { useRef, useState } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
 interface Message {
   peer: string;
@@ -27,7 +28,7 @@ export function ChatPanel({ channel }: Props) {
       <View id="chat-container">
         {chats.map((c, i) => (
           <View key={i}>
-            <b>{c.peer}:</b> {c.message}
+            <Text>{c.peer}: {c.message}</Text>
           </View>
         ))}
       </View>

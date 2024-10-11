@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { GatewaySelectors } from "../../components/GatewaySelector";
 import { generate_token } from "../../actions/token";
-
+import { setPlatform } from '@atm0s-media-sdk/core';
+setPlatform("web");
 export default function MeetPage(): JSX.Element {
   const router = useRouter();
   const roomRef = useRef<HTMLInputElement>(null);

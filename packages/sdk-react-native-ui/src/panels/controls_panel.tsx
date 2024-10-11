@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import { CameraSelection, MicrophoneSelection } from "../lib";
+import React from "react";
 
 interface Props {
   audio_name: string;

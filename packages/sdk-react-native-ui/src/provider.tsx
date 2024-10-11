@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useEffect, useMemo } from "react";
+import React, { ReactNode, createContext, useEffect, useMemo } from "react";
 import { Context } from "./context";
 
 export const Atm0sMediaUIContext = createContext<Context>({} as any);
@@ -10,7 +10,7 @@ interface Props {
 export function Atm0sMediaUIProvider({ children }: Props) {
   const context = useMemo(() => new Context(), []);
   useEffect(() => {
-    return () => {};
+    return () => { };
   }, [context]);
 
   return (

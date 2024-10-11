@@ -1,9 +1,6 @@
 import { EventEmitter } from "@atm0s-media-sdk/core";
 
-import {
-  mediaDevices,
-  MediaStream,
-} from 'react-native-webrtc';
+import { CrossPlatformMediaStream, mediaDevices } from "@atm0s-media-sdk/core";
 
 
 export enum ContextEvent {
@@ -11,14 +8,14 @@ export enum ContextEvent {
 }
 
 export class Context extends EventEmitter {
-  streams: Map<string, MediaStream> = new Map();
+  streams: Map<string, CrossPlatformMediaStream> = new Map();
   streams_history: Map<string, string> = new Map();
 
   async requestDevice(
     source_name: string,
     kind: "audio" | "video",
     deviceId?: string,
-  ): Promise<MediaStream> {
+  ): Promise<CrossPlatformMediaStream> {
     const old_stream = this.streams.get(source_name);
     if (old_stream) {
       old_stream.getTracks().map((t) => t.stop());
@@ -31,14 +28,14 @@ export class Context extends EventEmitter {
 
     switch (kind) {
       case "audio": {
-        let stream = await mediaDevices.getUserMedia({
+        let stream = await mediaDevices().getUserMedia({
           audio: deviceId2 ? { deviceId: deviceId2 } : true,
         });
         this.streams.set(source_name, stream);
         break;
       }
       case "video": {
-        let stream = await mediaDevices.getUserMedia({
+        let stream = await mediaDevices().getUserMedia({
           video: deviceId2 ? { deviceId: deviceId2 } : true,
         });
         this.streams.set(source_name, stream);

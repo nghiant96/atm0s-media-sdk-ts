@@ -17,10 +17,7 @@ import { Kind } from "./generated/protobuf/shared";
 import { RoomMessageChannel, MessageChannelConfig } from "./features/msg_channel";
 import { kindToString } from "./types";
 import config from "../package.json";
-import {
-  RTCPeerConnection,
-  MediaStreamTrack,
-} from 'react-native-webrtc';
+import { createPeerConnection, CrossPlatformMediaStreamTrack, CrossPlatformPeerConnection } from "./type";
 
 export interface JoinInfo {
   room: string;
@@ -49,7 +46,7 @@ export enum SessionEvent {
 }
 
 export class Session extends EventEmitter {
-  peer: RTCPeerConnection;
+  peer: CrossPlatformPeerConnection;
   dc: Datachannel;
 
   ice_lite: boolean = false;
@@ -73,7 +70,7 @@ export class Session extends EventEmitter {
     super();
     this.created_at = new Date().getTime();
     console.warn("Create session", this.created_at);
-    this.peer = new RTCPeerConnection();
+    this.peer = createPeerConnection();
     let dataChannel = this.peer.createDataChannel("datachannel");
     this.dc = new Datachannel(dataChannel as any);
     this.dc.on(DatachannelEvent.ROOM, (event: ServerEvent_Room) => {
@@ -250,7 +247,7 @@ export class Session extends EventEmitter {
 
   sender(
     track_name: string,
-    track_or_kind: MediaStreamTrack | Kind,
+    track_or_kind: CrossPlatformMediaStreamTrack | Kind,
     cfg?: TrackSenderConfig,
   ) {
     const sender = new TrackSender(this.dc, track_name, track_or_kind, cfg);

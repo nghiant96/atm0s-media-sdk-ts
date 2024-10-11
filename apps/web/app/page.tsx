@@ -1,7 +1,6 @@
 import Link from "next/link";
 import "./globals.css";
 import { env } from "./env";
-
 export default function Page(): JSX.Element {
   return (
     <main className="p-6">

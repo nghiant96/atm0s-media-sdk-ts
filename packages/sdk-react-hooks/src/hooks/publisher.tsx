@@ -1,4 +1,5 @@
 import {
+  CrossPlatformMediaStreamTrack,
   Kind,
   TrackSenderEvent,
   TrackSenderStatus,
@@ -7,13 +8,10 @@ import { Publisher, PublisherConfig } from "../context";
 import { Atm0sMediaContext } from "../provider";
 import { useContext, useEffect, useMemo, useState } from "react";
 
-import {
-  MediaStreamTrack,
-} from 'react-native-webrtc';
 
 export function usePublisher(
   name: string,
-  media_or_kind: Kind | MediaStreamTrack,
+  media_or_kind: Kind | CrossPlatformMediaStreamTrack,
   cfg?: PublisherConfig,
 ) {
   const ctx = useContext(Atm0sMediaContext);

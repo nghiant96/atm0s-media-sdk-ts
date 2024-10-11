@@ -1,7 +1,9 @@
 {
   "name": "@atm0s-media-sdk/core",
   "version": "1.0.0-alpha.4",
-  "main": "./index.ts",
+  "main": "./dist/lib.js",
+  "module": "./dist/lib.mjs",
+  "types": "./dist/lib.d.ts",
   "files": [
     "dist/*",
     "src/*"
@@ -17,7 +19,8 @@
   },
   "dependencies": {
     "protobufjs": "^7.3.0",
-    "react-native-webrtc": "^124.0.4"
+    "react-native-webrtc": "^124.0.4",
+    "ts-mixer": "6.0.4"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

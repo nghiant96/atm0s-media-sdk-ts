@@ -75,7 +75,7 @@ function EchoContent(): JSX.Element {
   });
 
   const connect = useCallback(async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({
+    const stream: any = await navigator.mediaDevices.getUserMedia({
       audio: true,
       video: true,
     });

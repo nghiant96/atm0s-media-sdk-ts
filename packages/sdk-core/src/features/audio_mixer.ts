@@ -8,11 +8,9 @@ import { ServerEvent_Receiver_VoiceActivity } from "../generated/protobuf/sessio
 import { Receiver_Source as AudioMixerSource } from "../generated/protobuf/shared";
 import { TrackReceiver, TrackReceiverEvent } from "../receiver";
 import { Session } from "../session";
+import { CrossPlatformMediaStream } from "../type";
 import { Kind } from "../types";
 import { EventEmitter } from "../utils";
-import {
-  MediaStream,
-} from 'react-native-webrtc';
 export enum AudioMixerEvent {
   OUTPUT_CHANGED = "features.mixer.output_changed",
   VOICE_ACTIVITY = "feature.mixer.voice_activity",
@@ -81,12 +79,12 @@ export class AudioMixer extends EventEmitter {
     };
   }
 
-  public streams(): MediaStream[] {
+  public streams(): CrossPlatformMediaStream[] {
     return this.receivers.map((r) => r.stream);
   }
 
   public attach(sources: AudioMixerSource[]) {
-    const req_srcs = [];
+    const req_srcs: any = [];
     for (const i in sources) {
       const source = sources[i]!;
       const existed = this.sources.find((s) => {
@@ -105,7 +103,7 @@ export class AudioMixer extends EventEmitter {
   }
 
   public detach(sources: AudioMixerSource[]) {
-    const req_srcs = [];
+    const req_srcs: any = [];
     for (const i in sources) {
       const source = sources[i]!;
       const existed = this.sources.findIndex((s) => {

@@ -3,11 +3,12 @@ import { useDeviceStream } from "../../hooks";
 import { Atm0sMediaUIContext } from "../../provider";
 import { usePublisher } from "@atm0s-media-sdk/react-hooks";
 import { Kind } from "@atm0s-media-sdk/core";
-import { MicIcon, MicOffIcon } from "../icons/microphone";
-import { mediaDevices, RTCView } from "react-native-webrtc";
+import { RTCView } from "react-native-webrtc";
+import { mediaDevices } from "@atm0s-media-sdk/core";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import Icon from 'react-native-vector-icons/Ionicons';
+import React from "react";
 
 interface MicrophonePreviewProps {
   source_name: string;
@@ -58,12 +59,12 @@ export function MicrophoneSelection({
       if (first_page) {
         await ctx.requestDevice(source_name, "audio");
       }
-      const devices = await mediaDevices.enumerateDevices();
+      const devices: any = await mediaDevices().enumerateDevices();
       console.log(devices);
       setDevices(
         devices
-          .filter((d) => d.kind == "audioinput")
-          .map((d) => {
+          .filter((d: any) => d.kind == "audioinput")
+          .map((d: any) => {
             return { id: d.deviceId, label: d.label };
           }),
       );
@@ -73,7 +74,7 @@ export function MicrophoneSelection({
   }, [ctx, source_name, setDevices, first_page]);
 
   useEffect(() => {
-    let track = stream?.getAudioTracks()[0];
+    let track: any = stream?.getAudioTracks()[0];
     if (track && !publisher.attached) {
       publisher.attach(track);
     } else if (!track && publisher.attached) {

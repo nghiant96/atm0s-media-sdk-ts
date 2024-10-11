@@ -45,3 +45,4 @@ export { ServerEvent_Receiver_VoiceActivity as TrackReceiverVoiceActivity } from
 
 export { Mode as AudioMixerMode } from "./generated/protobuf/features.mixer";
 export { Receiver_Source as AudioMixerSource } from "./generated/protobuf/shared";
+export * from "./type";
